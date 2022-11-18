@@ -1,9 +1,6 @@
 const { BrowserWindow } = require("@electron/remote");
 
 window.addEventListener("DOMContentLoaded", () => {
-	
-	
-	
   // Print function
   document.getElementById("print_button").addEventListener("click", () => {
     const url = document.querySelector("webview").getAttribute("src");
