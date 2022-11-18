@@ -47,7 +47,7 @@ jobs:
         release_name: Release - ${{ github.ref_name }}
         draft: false
         prerelease: false
-        
+    # here we would like to add some texts
     - name: Create Zip file
       uses: vimtor/action-zip@v1
       with:
