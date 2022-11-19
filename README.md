@@ -7,7 +7,7 @@ https://github.com/features/actions
 
 As I would like to see how these feature works, I create this repo and test action feature step by step.
 
-the .github/workflow/deploy.yml is the workflow file for this project.
+the `.github/workflow/deploy.yml` is the workflow file for this project.
 
 Now only windows setup package is working but I also have a plan for MacOS and Linux operating systems.
 
