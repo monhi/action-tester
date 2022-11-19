@@ -30,3 +30,10 @@ on:
     tags:
       - 'v*'
 ```
+To see the generated setup pacakges, please have a look at following link in this repo:
+```
+https://github.com/monhi/action-tester/releases/
+```
+
+
+
