@@ -11,7 +11,6 @@ on:
 
 jobs:
   build-win:
-
     runs-on: windows-latest
     permissions: write-all
     strategy:
@@ -64,3 +63,56 @@ jobs:
         asset_path: ./package-win.zip
         asset_name: Electron webview-win32-ia32-${{ github.ref_name }}.zip
         asset_content_type: application/zip    
+  build-osx:
+    runs-on: macos-latest
+    permissions: write-all
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npm run create-installer-mac
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}        
+        release_name: Release - ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+    # here we would like to add some texts
+    - name: Create Zip file
+      uses: vimtor/action-zip@v1
+      with:
+        files: ./release-builds/Electron-webview-win32-ia32/
+        dest: ./package-win.zip
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./package-win.zip
+        asset_name: Electron webview-win32-ia32-${{ github.ref_name }}.zip
+        asset_content_type: application/zip        
