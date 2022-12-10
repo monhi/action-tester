@@ -22,7 +22,7 @@ git log --oneline   # to find the commit_sha of the last commit.
 git tag –a vx.y.z commit_sha –m "Message"  # here vx.y.z is the semantic version for newly commited contents (for example v1.0.0) and commit_sha is the sha of final commit.
 git push origin --tags # here we commit to the tags and it triggers action file to run and produce new release 
 ```
-I developed my workflow in a way that it runs when a new tag wich semantic version number is created.
+I developed my workflow in a way that it runs when a new tag with semantic version number is created.
 It is important that the semantic version number begins with 'v' character. for example v1.0.1 activates the workflow file.
 ```
 on:
